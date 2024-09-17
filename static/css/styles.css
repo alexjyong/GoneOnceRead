@@ -4,36 +4,40 @@ body {
     background-color: #f0f4f8;
     margin: 0;
     padding: 0;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #333;
-    flex-direction: column; /* Add vertical column alignment */
+    flex-direction: column; /* Ensure items are stacked vertically */
 }
 
-h1 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;  /* Center header */
+/* Main container for the content */
+main {
+    width: 100%;
+    max-width: 600px; /* Limit max width for the main container */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* Form container to stack vertically */
 form {
     background-color: #ffffff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Adjust width */
-    max-width: 500px; /* Limit max width for better alignment */
+    width: 100%;
+    max-width: 400px; /* Adjust max-width for better alignment */
     display: flex;
-    flex-direction: column; /* Stack form fields vertically */
-    align-items: center; /* Center align content */
+    flex-direction: column;
 }
 
+/* Style the form fields to ensure proper spacing */
 textarea, input, select {
-    width: 100%; /* Full width of the form */
+    width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #d1d1d1;
@@ -45,18 +49,27 @@ textarea, input, select {
 
 textarea:focus, input:focus, select:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color: #4CAF50; /* Green border on focus */
 }
 
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left; /* Align labels to the left */
+}
+
+/* Button styling */
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 button:hover {
@@ -81,11 +94,6 @@ a:hover {
     text-align: center; /* Center result text */
 }
 
-/* Error message */
-.error-message {
-    color: red;
-}
-
 /* Secret display */
 .secret-display {
     background-color: #fff;
@@ -94,10 +102,35 @@ a:hover {
     border-radius: 4px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
+    text-align: left;
+    max-width: 80%; /* Limit width */
+    max-height: 400px; /* Limit height of the secret display */
+    overflow-y: auto; /* Allow scrolling within the secret display */
+    word-wrap: break-word; /* Ensure long text doesn't overflow */
 }
 
+/* Secret expired message */
 .secret-expired {
     font-style: italic;
     color: #555;
-    text-align: center; /* Center the expired message */
+    text-align: center;
+}
+
+/* Error message */
+.error-message {
+    color: red;
+}
+
+/* Center header */
+h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Ensure the page is scrollable */
+html, body {
+    height: 100%;
+    overflow: auto; /* Allow page to scroll */
 }

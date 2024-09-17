@@ -7,27 +7,29 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <h1>Enter Sensitive Information</h1>
-    <form id="secret-form">
-        <textarea id="secret" rows="5" cols="40" placeholder="Enter your secret"></textarea><br>
+    <main>
+        <h1>Enter Sensitive Information</h1>
+        <form id="secret-form">
+            <textarea id="secret" rows="5" placeholder="Enter your secret"></textarea>
 
-        <label for="expiration">Expiration Time: </label>
-        <input type="number" id="expiration-time" min="1" value="5"><br>
+            <label for="expiration">Expiration Time:</label>
+            <input type="number" id="expiration-time" min="1" value="5">
 
-        <label for="expires-in">Expires In:</label>
-        <select id="time-unit">
-            <option value="minutes">Minutes</option>
-            <option value="hours">Hours</option>
-            <option value="days">Days</option>
-        </select><br>
+            <label for="time-unit">Expires In:</label>
+            <select id="time-unit">
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days">Days</option>
+            </select>
 
-        <label for="password">Optional Password: </label>
-        <input type="password" id="password" placeholder="Enter a password (optional)"><br>
+            <label for="password">Optional Password:</label>
+            <input type="password" id="password" placeholder="Enter a password (optional)">
 
-        <button type="submit">Generate Link</button>
-    </form>
+            <button type="submit">Generate Link</button>
+        </form>
 
-    <div id="result"></div>
+        <div id="result"></div>
+    </main>
 
     <script>
         document.getElementById('secret-form').addEventListener('submit', async function(event) {
@@ -64,13 +66,7 @@
                     document.getElementById('result').textContent = data.error;
                 }
             } catch (error) {
-                if (error.message){
-                    document.getElementById('result').innerHTML = `<p style="color:red;">A server error occurred: ${error.message}</p>`;
-                }
-                else {
-                    document.getElementById('result').innerHTML = `<p style="color:red;">A server error occurred.</p>`;
-                }
-                
+                document.getElementById('result').innerHTML = `<p style="color:red;">A server error occurred: ${error.message}</p>`;
             }
         });
     </script>
