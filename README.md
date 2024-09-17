@@ -30,7 +30,7 @@ Once the information is viewed, the link becomes invalid, ensuring that sensitiv
 
    ```bash
    git clone https://github.com/alexjyong/GoneOnceRead.git
-   cd secretshred
+   cd GoneOnceRead
    ```
 2. Build and run the app with Docker Compose:
    ```bash
