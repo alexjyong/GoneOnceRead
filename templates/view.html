@@ -9,15 +9,29 @@
 <body>
     <h1>View Secret</h1>
 
-    {% if secret %}
-        <div class="secret-display">
-            <p><strong>Your Secret:</strong> {{ secret }}</p>
-        </div>
-        <p class="secret-expired"><em>This link has now expired and cannot be used again.</em></p>
-    {% elif error %}
+    {% if error %}
         <p class="error-message">{{ error }}</p>
     {% endif %}
 
-    <p><a href="/">Create Another Secret</a></p>
+    {% if show_password %}
+        <form method="POST">
+            <label for="password">Enter Password to View the Secret: </label>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Submit</button>
+        </form>
+    {% elif secret %}
+        <div class="secret-display">
+            {% if formatted %}
+                <pre>{{ secret }}</pre>  <!-- Preformatted for large data like JSON -->
+            {% else %}
+                <p><strong>Your Secret:</strong> {{ secret }}</p>
+            {% endif %}
+        </div>
+        <p class="secret-expired"><em>This link has now expired and cannot be used again.</em></p>
+    {% endif %}
+
+    <!-- Add a link to go back to the secret creation page -->
+    <p><a href="/" style="text-decoration: none; color: blue;"><strong>Create Another Secret</strong></a></p>
+
 </body>
 </html>

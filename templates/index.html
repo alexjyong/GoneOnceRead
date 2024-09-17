@@ -14,12 +14,15 @@
         <label for="expiration">Expiration Time: </label>
         <input type="number" id="expiration-time" min="1" value="5"><br>
 
-        <label for="expires-in">Expires In:</label> 
+        <label for="expires-in">Expires In:</label>
         <select id="time-unit">
             <option value="minutes">Minutes</option>
             <option value="hours">Hours</option>
             <option value="days">Days</option>
         </select><br>
+
+        <label for="password">Optional Password: </label>
+        <input type="password" id="password" placeholder="Enter a password (optional)"><br>
 
         <button type="submit">Generate Link</button>
     </form>
@@ -32,6 +35,7 @@
             let secret = document.getElementById('secret').value;
             let expirationTime = document.getElementById('expiration-time').value;
             let timeUnit = document.getElementById('time-unit').value;
+            let password = document.getElementById('password').value;
 
             let expirationInSeconds;
             if (timeUnit === 'minutes') {
@@ -46,7 +50,7 @@
                 const response = await fetch('/store', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ secret: secret, expiration: expirationInSeconds })
+                    body: JSON.stringify({ secret: secret, expiration: expirationInSeconds, password: password })
                 });
 
                 if (!response.ok) {
