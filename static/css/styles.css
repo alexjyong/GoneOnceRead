@@ -9,25 +9,31 @@ body {
     align-items: center;
     height: 100vh;
     color: #333;
+    flex-direction: column; /* Add vertical column alignment */
 }
 
 h1 {
     color: #333;
     font-size: 24px;
     margin-bottom: 20px;
+    text-align: center;  /* Center header */
 }
 
-/* Form styles */
+/* Form container to stack vertically */
 form {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 100%; /* Adjust width */
+    max-width: 500px; /* Limit max width for better alignment */
+    display: flex;
+    flex-direction: column; /* Stack form fields vertically */
+    align-items: center; /* Center align content */
 }
 
 textarea, input, select {
-    width: 100%;
+    width: 100%; /* Full width of the form */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #d1d1d1;
@@ -72,6 +78,7 @@ a:hover {
     margin-top: 20px;
     font-size: 14px;
     color: #333;
+    text-align: center; /* Center result text */
 }
 
 /* Error message */
@@ -87,9 +94,11 @@ a:hover {
     border-radius: 4px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
+    text-align: center; /* Center the secret text */
 }
 
 .secret-expired {
     font-style: italic;
     color: #555;
+    text-align: center; /* Center the expired message */
 }
