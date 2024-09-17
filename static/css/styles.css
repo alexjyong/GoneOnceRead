@@ -76,6 +76,22 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Copy Button Styling */
+#copy-button, #copy-secret-button {
+    background-color: #3498db; /* Blue color for copy button */
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#copy-button:hover, #copy-secret-button:hover {
+    background-color: #2980b9;
+}
+
 a {
     color: #4CAF50;
     text-decoration: none;

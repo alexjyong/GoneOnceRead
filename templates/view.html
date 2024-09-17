@@ -23,16 +23,27 @@
         {% elif secret %}
             <div class="secret-display">
                 {% if formatted %}
-                    <pre>{{ secret }}</pre>  <!-- Preformatted for large data like JSON -->
+                    <pre id="secret-text">{{ secret }}</pre>  <!-- Preformatted for large data like JSON -->
                 {% else %}
-                    <p><strong>Your Secret:</strong> {{ secret }}</p>
+                    <p id="secret-text"><strong>Your Secret:</strong> {{ secret }}</p>
                 {% endif %}
             </div>
             <p class="secret-expired"><em>This link has now expired and cannot be used again.</em></p>
+
+            <button id="copy-secret-button">Copy Secret</button> <!-- Copy secret button -->
         {% endif %}
 
         <!-- Add a link to go back to the secret creation page -->
         <p><a href="/" style="text-decoration: none; color: blue;"><strong>Create Another Secret</strong></a></p>
     </main>
+
+    <script>
+        document.getElementById('copy-secret-button')?.addEventListener('click', function() {
+            let secret = document.getElementById('secret-text').textContent;
+            navigator.clipboard.writeText(secret).then(function() {
+                alert('Secret copied to clipboard!');
+            });
+        });
+    </script>
 </body>
 </html>

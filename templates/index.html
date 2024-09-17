@@ -29,6 +29,7 @@
         </form>
 
         <div id="result"></div>
+        <button id="copy-button" style="display:none;">Copy Link</button> <!-- Copy button, initially hidden -->
     </main>
 
     <script>
@@ -61,7 +62,14 @@
 
                 const data = await response.json();
                 if (data.share_link) {
-                    document.getElementById('result').innerHTML = `<p>Share this link: <a href="${data.share_link}">${data.share_link}</a></p>`;
+                    document.getElementById('result').innerHTML = `<p>Share this link: <a href="${data.share_link}" id="secret-link">${data.share_link}</a></p>`;
+                    document.getElementById('copy-button').style.display = 'inline-block';
+
+                    document.getElementById('copy-button').addEventListener('click', function() {
+                        navigator.clipboard.writeText(data.share_link).then(function() {
+                            alert('Link copied to clipboard!');
+                        });
+                    });
                 } else {
                     document.getElementById('result').textContent = data.error;
                 }
