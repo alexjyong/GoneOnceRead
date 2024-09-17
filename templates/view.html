@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GoneOnceRead - View Secret</title>
+    <link rel="stylesheet" href="/static/css/styles.css"> <!-- Link to the CSS file -->
 </head>
 <body>
     <h1>View Secret</h1>
 
     {% if secret %}
-        <p><strong>Your Secret:</strong> {{ secret }}</p>
-        <p><em>This link has now expired and cannot be used again.</em></p>
+        <div class="secret-display">
+            <p><strong>Your Secret:</strong> {{ secret }}</p>
+        </div>
+        <p class="secret-expired"><em>This link has now expired and cannot be used again.</em></p>
     {% elif error %}
-        <p style="color: red;">{{ error }}</p>
+        <p class="error-message">{{ error }}</p>
     {% endif %}
 
     <!-- Add a button or link to go back to the secret creation page -->
