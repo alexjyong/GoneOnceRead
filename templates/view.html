@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecretShred - View Secret</title>
+</head>
+<body>
+    <h1>View Secret</h1>
+
+    {% if secret %}
+        <p><strong>Your Secret:</strong> {{ secret }}</p>
+        <p><em>This link has now expired and cannot be used again.</em></p>
+    {% elif error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>
