@@ -29,7 +29,7 @@ Once the information is viewed, the link becomes invalid, ensuring that sensitiv
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/secretshred.git
+   git clone https://github.com/alexjyong/GoneOnceRead.git
    cd secretshred
    ```
 2. Build and run the app with Docker Compose:
