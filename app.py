@@ -33,9 +33,21 @@ def store_secret():
 
     # Store the encrypted secret in Redis with the user-defined expiration time
     r.setex(token, expiration, encrypted_secret)
+    print(f"Stored token {token} with expiration {expiration} seconds.")
 
     # Generate the shareable link
-    share_link = f"{request.host_url}view/{token}"
+    codespace_name = os.getenv('CODESPACE_NAME')  # Get Codespace name if defined
+    github_forwarding_domain = os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN')
+
+    if codespace_name and github_forwarding_domain:
+        # If running in Codespaces, construct the link using Codespace name and port forwarding domain
+        share_link = f"https://{codespace_name}-5000.{github_forwarding_domain}/view/{token}"
+        print(f"Generated Codespace share link: {share_link}")
+    else:
+        # If not in Codespaces, fall back to the default host URL (useful for local dev)
+        share_link = f"{request.host_url}view/{token}"
+        print(f"Generated local share link: {share_link}")
+
     return jsonify({'share_link': share_link})
 
 @app.route('/view/<token>')
@@ -43,15 +55,18 @@ def view(token):
     # Check if the token exists in Redis
     encrypted_secret = r.get(token)
     if not encrypted_secret:
+        print(f"Token {token} not found or expired.")
         return render_template('view.html', error='Invalid or expired link')
 
     # Decrypt the secret
     secret = cipher_suite.decrypt(encrypted_secret).decode()
+    print(f"Retrieved and decrypted secret for token {token}.")
 
     # Delete the secret from Redis after it’s viewed
     r.delete(token)
+    print(f"Deleted token {token} from Redis after viewing.")
 
     return render_template('view.html', secret=secret)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)  # Default port 5000, dynamic via Codespaces if necessary

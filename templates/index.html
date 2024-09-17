@@ -9,8 +9,17 @@
     <h1>Enter Sensitive Information</h1>
     <form id="secret-form">
         <textarea id="secret" rows="5" cols="40" placeholder="Enter your secret"></textarea><br>
-        <label for="expiration">Expiration Time (in seconds): </label>
-        <input type="number" id="expiration" min="60" value="300"><br>
+
+        <label for="expiration">Expiration Time: </label>
+        <input type="number" id="expiration-time" min="1" value="5"><br>
+
+        <label for="time-unit">Time Unit:</label>
+        <select id="time-unit">
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+        </select><br>
+
         <button type="submit">Generate Link</button>
     </form>
 
@@ -20,19 +29,44 @@
         document.getElementById('secret-form').addEventListener('submit', async function(event) {
             event.preventDefault();
             let secret = document.getElementById('secret').value;
-            let expiration = document.getElementById('expiration').value;
+            let expirationTime = document.getElementById('expiration-time').value;
+            let timeUnit = document.getElementById('time-unit').value;
 
-            const response = await fetch('/store', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret: secret, expiration: expiration })
-            });
+            // Convert expiration time to seconds based on the selected time unit
+            let expirationInSeconds;
+            if (timeUnit === 'minutes') {
+                expirationInSeconds = expirationTime * 60;
+            } else if (timeUnit === 'hours') {
+                expirationInSeconds = expirationTime * 60 * 60;
+            } else if (timeUnit === 'days') {
+                expirationInSeconds = expirationTime * 60 * 60 * 24;
+            }
 
-            const data = await response.json();
-            if (data.share_link) {
-                document.getElementById('result').innerHTML = `<p>Share this link: <a href="${data.share_link}">${data.share_link}</a></p>`;
-            } else {
-                document.getElementById('result').textContent = data.error;
+            try {
+                const response = await fetch('/store', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ secret: secret, expiration: expirationInSeconds })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                if (data.share_link) {
+                    document.getElementById('result').innerHTML = `<p>Share this link: <a href="${data.share_link}">${data.share_link}</a></p>`;
+                } else {
+                    document.getElementById('result').textContent = data.error;
+                }
+            } catch (error) {
+                if (error.message){
+                    document.getElementById('result').innerHTML = `<p style="color:red;">A server error occurred: ${error.message}</p>`;
+                }
+                else {
+                    document.getElementById('result').innerHTML = `<p style="color:red;">A server error occurred.</p>`;
+                }
+                
             }
         });
     </script>
