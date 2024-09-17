@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecretShred - Share Sensitive Information</title>
+</head>
+<body>
+    <h1>Enter Sensitive Information</h1>
+    <form id="secret-form">
+        <textarea id="secret" rows="5" cols="40" placeholder="Enter your secret"></textarea><br>
+        <button type="submit">Generate Link</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('secret-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            let secret = document.getElementById('secret').value;
+
+            const response = await fetch('/store', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ secret: secret })
+            });
+
+            const data = await response.json();
+            if (data.share_link) {
+                document.getElementById('result').innerHTML = `<p>Share this link: <a href="${data.share_link}">${data.share_link}</a></p>`;
+            } else {
+                document.getElementById('result').textContent = data.error;
+            }
+        });
+    </script>
+</body>
+</html>
