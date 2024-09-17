@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template
 from cryptography.fernet import Fernet
 import redis
 import os
@@ -18,7 +18,10 @@ def index():
 
 @app.route('/store', methods=['POST'])
 def store_secret():
-    secret = request.json.get('secret')
+    data = request.json
+    secret = data.get('secret')
+    expiration = int(data.get('expiration', 300))  # Default to 300 seconds (5 minutes) if not provided
+
     if not secret:
         return jsonify({'error': 'No secret provided'}), 400
 
@@ -28,8 +31,8 @@ def store_secret():
     # Generate a unique token for the link
     token = os.urandom(16).hex()
 
-    # Store the encrypted secret in Redis with an expiration time (e.g., 5 minutes)
-    r.setex(token, 300, encrypted_secret)  # 300 seconds = 5 minutes
+    # Store the encrypted secret in Redis with the user-defined expiration time
+    r.setex(token, expiration, encrypted_secret)
 
     # Generate the shareable link
     share_link = f"{request.host_url}view/{token}"

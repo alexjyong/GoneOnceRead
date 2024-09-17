@@ -9,6 +9,8 @@
     <h1>Enter Sensitive Information</h1>
     <form id="secret-form">
         <textarea id="secret" rows="5" cols="40" placeholder="Enter your secret"></textarea><br>
+        <label for="expiration">Expiration Time (in seconds): </label>
+        <input type="number" id="expiration" min="60" value="300"><br>
         <button type="submit">Generate Link</button>
     </form>
 
@@ -18,11 +20,12 @@
         document.getElementById('secret-form').addEventListener('submit', async function(event) {
             event.preventDefault();
             let secret = document.getElementById('secret').value;
+            let expiration = document.getElementById('expiration').value;
 
             const response = await fetch('/store', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ secret: secret })
+                body: JSON.stringify({ secret: secret, expiration: expiration })
             });
 
             const data = await response.json();
