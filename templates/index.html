@@ -62,7 +62,7 @@
 
                 const data = await response.json();
                 if (data.share_link) {
-                    document.getElementById('result').innerHTML = `<p>Share this link: {data.share_link}</p>`;
+                    document.getElementById('result').innerHTML = `<p>Share this link: ${data.share_link}</p>`;
                     document.getElementById('copy-button').style.display = 'inline-block';
 
                     document.getElementById('copy-button').addEventListener('click', function() {
