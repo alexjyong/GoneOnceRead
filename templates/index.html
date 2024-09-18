@@ -62,13 +62,11 @@
 
                 const data = await response.json();
                 if (data.share_link) {
-                    document.getElementById('result').innerHTML = `<p>Share this link: <a href="${data.share_link}" id="secret-link">${data.share_link}</a></p>`;
+                    document.getElementById('result').innerHTML = `<p>Share this link: {data.share_link}</p>`;
                     document.getElementById('copy-button').style.display = 'inline-block';
 
                     document.getElementById('copy-button').addEventListener('click', function() {
-                        navigator.clipboard.writeText(data.share_link).then(function() {
-                            alert('Link copied to clipboard!');
-                        });
+                        navigator.clipboard.writeText(data.share_link);
                     });
                 } else {
                     document.getElementById('result').textContent = data.error;

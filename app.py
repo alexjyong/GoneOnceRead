@@ -1,9 +1,22 @@
 from flask import Flask, request, jsonify, render_template
 from cryptography.fernet import Fernet
 import redis
+import argparse
 import os
 
+def get_port():
+    """Get the port from command line arguments or default to 8080"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', type=int, help='Port number')
+    args = parser.parse_args()
+
+    if args.port:
+        return int(args.port)
+    else:
+        return 8080
+
 app = Flask(__name__)
+port = get_port()
 
 # Generate or retrieve a key for encryption
 key = Fernet.generate_key()
@@ -11,6 +24,8 @@ cipher_suite = Fernet(key)
 
 # Set up Redis connection
 r = redis.Redis(host='redis', port=6379, db=0)
+
+
 
 @app.route('/')
 def index():
@@ -47,7 +62,7 @@ def store_secret():
 
     if codespace_name and github_forwarding_domain:
         # If running in Codespaces, construct the link using Codespace name and port forwarding domain
-        share_link = f"https://{codespace_name}-5000.{github_forwarding_domain}/view/{token}"
+        share_link = f"https://{codespace_name}-{port}.{github_forwarding_domain}/view/{token}"
     else:
         # If not in Codespaces, fall back to the default host URL
         share_link = f"{request.host_url}view/{token}"
@@ -97,4 +112,4 @@ def view(token):
     return render_template('view.html', secret=secret, formatted=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=port)

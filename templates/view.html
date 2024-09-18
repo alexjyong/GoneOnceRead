@@ -40,9 +40,7 @@
     <script>
         document.getElementById('copy-secret-button')?.addEventListener('click', function() {
             let secret = document.getElementById('secret-text').textContent;
-            navigator.clipboard.writeText(secret).then(function() {
-                alert('Secret copied to clipboard!');
-            });
+            navigator.clipboard.writeText(secret);
         });
     </script>
 </body>

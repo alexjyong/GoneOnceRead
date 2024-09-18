@@ -10,8 +10,8 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000 for the Flask app
-EXPOSE 5000
+# Expose port 8080 for the Flask app
+EXPOSE 8080
 
 # Define environment variable to prevent Python from buffering outputs
 ENV PYTHONUNBUFFERED=1

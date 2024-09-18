@@ -37,4 +37,4 @@ Once the information is viewed, the link becomes invalid, ensuring that sensitiv
    docker-compose build
    docker-compose up
    ```
-3. Open your browser and navigate to http://localhost:5000 (or if you are running this on Github codespaces, the url given to you in ports section) to access the service.
+3. Open your browser and navigate to http://localhost:8080 (or if you are running this on Github codespaces, the url given to you in ports section) to access the service.
