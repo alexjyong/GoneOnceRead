@@ -12,17 +12,16 @@ Once the information is viewed, the link becomes invalid, ensuring that sensitiv
 
 ## How It Works
 
-1. A user submits sensitive information via a web form.
+1. A user submits sensitive information via a web form and sets it to expire after a certain time if not viewed. For an extra layer of protection, a password can be used to protect the secret. 
 2. The backend encrypts the information and generates a unique, shareable link.
-3. The recipient accesses the link and views the sensitive information.
+3. The recipient accesses the link and views the sensitive information. If a password was used in the secret creation, the recipient uses it to access the secret. 
 4. After viewing, the link is invalidated and the encrypted data is deleted.
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Docker** and **Docker Compose** installed on your machine.
-- A basic understanding of how to run Docker containers.
+- **Recommended** Docker and docker-compose for easy setup.
 
 ### Installation
 
