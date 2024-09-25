@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from cryptography.fernet import Fernet
 import redis
 import argparse
@@ -22,10 +22,18 @@ port = get_port()
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
 
-# Set up Redis connection
-r = redis.Redis(host='redis', port=6379, db=0)
+# Get Redis connection details from environment variables, with defaults
+redis_host = os.getenv('REDIS_HOST', 'redis')  
+redis_port = int(os.getenv('REDIS_PORT', 6379))  
+redis_password = os.getenv('REDIS_PASSWORD', None)
 
-
+# Set up Redis connection with authentication
+r = redis.Redis(
+    host=redis_host,
+    port=redis_port,
+    db=0,
+    password=redis_password  # Use the password for authentication
+)
 
 @app.route('/')
 def index():

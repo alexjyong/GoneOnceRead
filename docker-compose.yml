@@ -11,8 +11,12 @@ services:
       - FLASK_DEBUG=1
       - CODESPACE_NAME=${CODESPACE_NAME}  # only needed if you are running this in codespaces
       - GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN=${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN} # only needed if you are running this in codespaces
+      - REDIS_PASSWORD=my_secure_password  
 
   redis:
     image: "redis:alpine"
     ports:
       - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=my_secure_password  # Set Redis password
+    command: redis-server --requirepass my_secure_password  # Start Redis with authentication enabled

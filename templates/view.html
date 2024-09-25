@@ -47,8 +47,15 @@
 
     <script>
         document.getElementById('copy-secret-button')?.addEventListener('click', function() {
-            let secret = document.getElementById('secret-text').textContent;
-            navigator.clipboard.writeText(secret);
+            let secretElement = document.getElementById('secret-text');
+
+            // Remove unnecessary whitespace and line breaks
+            let secret = secretElement.innerText.trim();
+
+            // Copy the trimmed secret to the clipboard
+            navigator.clipboard.writeText(secret).then(function() {
+                alert('Secret copied to clipboard!');
+            });
         });
     </script>
 </body>
