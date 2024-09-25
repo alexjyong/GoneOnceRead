@@ -17,6 +17,38 @@ Once the information is viewed, the link becomes invalid, ensuring that sensitiv
 3. The recipient accesses the link and views the sensitive information. If a password was used in the secret creation, the recipient uses it to access the secret. 
 4. After viewing, the link is invalidated and the encrypted data is deleted.
 
+## If you like charts
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#3498db', 'edgeLabelBackground':'#e8e8e8', 'tertiaryColor': '#f0f4f8'}}}%%
+%% C4 Context Diagram %%
+flowchart TB
+    subgraph System_Boundary["GoneOnceRead System"]
+        User(End User)
+        subgraph Frontend["Frontend"]
+            HTML_HTML["HTML / CSS / JS"]
+        end
+        subgraph Backend["Backend"]
+            FlaskApp[Flask Application]
+            Encryption[Encryption/Decryption]
+        end
+        subgraph DataStore["Data Store"]
+            Redis_DB[Redis]
+        end
+    end
+
+    User -->|Interacts with| HTML_HTML["HTML"]
+    HTML_HTML -->|API Requests to store and retrieve data| FlaskApp[Flask Application]
+    FlaskApp -->|Encrypts & Decrypts| Encryption
+    FlaskApp -->|Stores & Retrieves| Redis_DB
+
+    style User fill:#f5c2c7
+    style HTML_HTML fill:#3498db,stroke:#3498db,color:#fff
+    style FlaskApp fill:#2ecc71,stroke:#2ecc71,color:#fff
+    style Encryption fill:#f39c12,stroke:#f39c12,color:#fff
+    style Redis_DB fill:#e74c3c,stroke:#e74c3c,color:#fff
+```
+
 ## Getting Started
 
 ### Prerequisites
