@@ -76,45 +76,45 @@ def store_secret():
 
 @app.route('/view/<token>', methods=['GET', 'POST'])
 def view(token):
-    if request.method == 'POST':
-        # Handle password submission
-        password = request.form.get('password')
-        stored_data_str = r.get(token)
-        
-        if not stored_data_str:
-            return render_template('view.html', error='Invalid or expired link')
+    # Handle the GET request with the confirmation logic
+    reveal_secret = request.args.get('reveal')
 
-        # Parse the stored data
-        stored_data = eval(stored_data_str.decode())
-        stored_password = stored_data.get('password')
-        
-        # Check if the password matches (if a password was set)
-        if stored_password and stored_password != password:
-            return render_template('view.html', token=token, error='Invalid password', show_password=True)
-        
-        # Password is correct, or no password was set
-        secret = stored_data.get('secret')
-        secret = cipher_suite.decrypt(secret.encode()).decode()
-
-        # Delete the secret from Redis after it’s viewed
-        r.delete(token)
-        
-        return render_template('view.html', secret=secret, formatted=True)
-
-    # First load - Show the password prompt if necessary
+    # Retrieve the secret from Redis
     stored_data_str = r.get(token)
     if not stored_data_str:
         return render_template('view.html', error='Invalid or expired link')
 
     stored_data = eval(stored_data_str.decode())
+    
+    # Check if a password is required
     if stored_data.get('password'):
-        # If password is required, show the password input form
+        # Handle the POST request for password submission
+        if request.method == 'POST':
+            password = request.form.get('password')
+            stored_password = stored_data.get('password')
+
+            # Check if the password matches
+            if stored_password != password:
+                return render_template('view.html', token=token, error='Invalid password', show_password=True)
+
+            # Password is correct, reveal the secret
+            secret = cipher_suite.decrypt(stored_data.get('secret').encode()).decode()
+            r.delete(token)
+            return render_template('view.html', secret=secret, formatted=True)
+        
+        # Show password prompt if password is required
         return render_template('view.html', token=token, show_password=True)
 
-    # If no password, show the secret directly
-    secret = cipher_suite.decrypt(stored_data.get('secret').encode()).decode()
-    r.delete(token)
-    return render_template('view.html', secret=secret, formatted=True)
+    # No password required, handle button confirmation logic
+    if reveal_secret == 'true':
+        # Reveal the secret and delete it from Redis
+        secret = cipher_suite.decrypt(stored_data.get('secret').encode()).decode()
+        r.delete(token)
+        return render_template('view.html', secret=secret, formatted=True)
+
+    # Show the "Reveal Secret" button if no confirmation is given
+    return render_template('view.html', token=token, show_reveal_button=True)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
